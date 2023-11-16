@@ -1,14 +1,23 @@
 pipeline {
     agent any
+    tools {
+        maven 'MVN1'
+          }
     stages {
-       stage ('Build') {
+       stage ('Build Jar') {
            steps {
-           sh 'echo "This is my first stage in jenkins in which I have built the application"'
+           sh 'echo "Building the jar file"'
+           sh 'mvn build'   
                  }
                        }
-       stage ('Test') {
+       stage ('Build Image') {
              steps {
-           sh 'echo "This is my second stage in jenkins in which I have tested the application"'
+           sh 'echo "Building Docker Image"'
+           withCredentials([usernamePassword(credentialsId: 'mydockerhub', passwordVariable: 'PASS', usernameVariable: 'USER')])
+           sh 'docker build -t ahesmat/meddy-repo:jma-2.0 .'
+           sh "echo $PASS | docker login -u $USR --password-stdin"
+           sh 'docker push ahesmat/meddy-repo:jma-2.0'      
+                 
                    } 
                       }
         stage ('Deploy') {
