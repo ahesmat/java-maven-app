@@ -15,7 +15,7 @@ pipeline {
            sh 'echo "Building Docker Image"'
            withCredentials([usernamePassword(credentialsId: 'mydockerhub', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
            sh 'docker build -t ahesmat/meddy-repo:jma-2.0 .'
-           sh "echo $PASS | docker login -u $USR --password-stdin"
+           sh "echo $PASS | docker login -u $USER --password-stdin"
            sh 'docker push ahesmat/meddy-repo:jma-2.0'      
            } 
                    
