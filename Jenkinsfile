@@ -7,7 +7,7 @@ pipeline {
        stage ('Build Jar') {
            steps {
            sh 'echo "Building the jar file"'
-           sh 'mvn build'   
+           sh 'mvn package'   
                  }
                        }
        stage ('Build Image') {
